@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>editing suplier details</title>
+</head>
+<body>
+    <form method="post" action="/suplier/<%= suplier._id %>?_method=PUT">
+        Suplier Name:<input type="text" name="suplier[suplierName]" value="<%= suplier.suplierName %>" required><br>
+        Suplier Code: <input type="text" name="suplier[suplierCode]" value="<%= suplier.suplierCode %>" required><br>
+        <button>Edit</button>
+    </form>
+</body>
+</html>

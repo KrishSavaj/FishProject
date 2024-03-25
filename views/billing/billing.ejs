@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing</title>
+</head>
+<body>
+    <h1>Billing</h1>
+    <% for(d of data) { %>
+        <%= d._id.suplierName %>
+        <br>
+        <% for(f of d.fish) { %>
+            <%= f.fishDetails.fishName %>&nbsp;<%= f.totalsaleweigth %>&nbsp; <%= f.totalaveragerate %>&nbsp; <%= f.totalaveragerate * f.totalsaleweigth %> 
+            <br>
+        <% } %>
+        <hr>
+    <% } %>
+</body>
+</html>

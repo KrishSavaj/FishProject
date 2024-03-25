@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=\, initial-scale=1.0" />
+    <title>Fish Details</title>
+  </head>
+  <body>
+    <% for(f of fish) { %> 
+        Fish Name : <%= f.fishName %> <br />
+        <a href="/fish/<%= f._id %>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a><br>
+        <form method="post" action="/fish/<%= f._id %>?_method=DELETE">
+        <button>Delete</button>
+        </form>
+    <% } %>
+  </body>
+</html>

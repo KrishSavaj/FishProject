@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>editing paypending</title>
+</head>
+<body>
+    <form method="post" action="/paypending/<%= p._id %>?_method=PUT">
+        customerName:<input type="text" name="pay[customerName]" value="<%= p.customerId.customerName %>"><br><br>
+        Amount: <input type="number" name="pay[amount]" value="<%= p.amount %>"><br><br>
+        <button>Edit</button>
+    </form>
+</body>
+</html>

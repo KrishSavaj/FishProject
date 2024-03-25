@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adding Supplier Entry</title>
+    <style>
+      .supplier-form {
+        display: flex; /* Arrange elements horizontally */
+        flex-direction: column; /* Stack elements vertically */
+        gap: 10px; /* Add space between elements */
+        margin: 20px auto; /* Center the form horizontally */
+        width: 300px; /* Optional: Set form width */
+      }
+
+      label {
+        display: block; /* Make labels on separate lines */
+        margin-bottom: 5px; /* Add slight space below labels */
+      }
+
+      input[type="text"],
+      input[type="number"] {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%; /* Make input fields full width */
+      }
+
+      button {
+        background-color: #4caf50; /* Green color */
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #45a049; /* Darker green on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/suplierentry" method="post" class="supplier-form">
+      <label for="supname">Supplier Name:</label>
+      <input
+        type="text"
+        name="se[supname]"
+        id="supname"
+        placeholder="Supplier Name"
+      />
+      <br />
+
+      <label for="boxes">Number of Boxes:</label>
+      <input type="number" name="se[boxes]" id="boxes" placeholder="Boxes" />
+      <br />
+
+      <label for="pieces">Number of Pieces:</label>
+      <input type="number" name="se[pieces]" id="pieces" placeholder="Pieces" />
+      <br />
+
+      <button type="submit">Add</button>
+    </form>
+  </body>
+</html>

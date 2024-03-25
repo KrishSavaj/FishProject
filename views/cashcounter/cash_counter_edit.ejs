@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="/cashcounter/<%= cash._id %>?_method=PUT">
+        <P><%= cash.suplierId.suplierName %></P>
+        <input type="text" name="cash[supname]" value="<%= cash.suplierId.suplierName %>" required ><br><br>
+        <input type="text" value="<%= cash.customerId.customerName %>" name="cash[custname]"><br><br>
+        <% if(cash.subName) { %>
+            <input type="text" value=<%= cash.subName %> name="cash[subname]"><br><br>
+        <% } %>
+        <input type="text" value="<%= cash.fishId.fishName %>" name="cash[fishname]"><br><br>
+        <input type="number" value=<%= cash.kg %> name="cash[kg]"><br><br>
+        <input type="number" value=<%= cash.rate %> name="cash[rate]"><br><br>
+        <input type="number" value=<%= cash.amount %> name="cash[amount]"><br><br>
+        <button>Edit</button>
+    </form>
+</body>
+</html>

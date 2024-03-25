@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>listing all the sales</title>
+</head>
+<body>
+    <% for(c of cc) { %>
+        <%= c.suplierId.suplierName %>&nbsp; <%= c.customerId.customerName %> &nbsp;<%= c.fishId.fishName %>&nbsp;<%= c.kg %>&nbsp;*&nbsp;<%= c.rate %>&nbsp;:&nbsp;<%= c.amount %>
+        <a href="/cashcounter/<%= c._id %>/edit">Edit</a><br>
+        <form method="post" action="/cashcounter/<%= c._id %>?_method=DELETE">
+            <button>Delete</button>
+        </form>
+        <hr>
+    <% } %>
+</body>
+</html>

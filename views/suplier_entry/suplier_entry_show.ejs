@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supplier Details</title>
+    <style>
+      .supplier-details {
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin: 20px auto;
+        width: 300px;
+      }
+
+      .supplier-details p {
+        margin: 5px 0;
+      }
+
+      .supplier-details p strong {
+        font-weight: bold;
+      }
+
+      .actions {
+        display: flex; /* Arrange buttons horizontally */
+        justify-content: space-between; /* Space buttons evenly */
+        margin-top: 10px;
+      }
+
+      .edit-btn {
+        background-color: #307cff; /* Blue color */
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none; /* Remove underline from anchor tag */
+      }
+
+      .edit-btn:hover {
+        background-color: #2069ff; /* Darker blue on hover */
+      }
+
+      button[type="submit"] {
+        background-color: #f00; /* Red color */
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button[type="submit"]:hover {
+        background-color: #c80000; /* Darker red on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <% for(s of se) { %>
+    <div class="supplier-details">
+      <p><strong>Supplier Name:</strong> <%= s.suplierId.suplierName %></p>
+      <p><strong>Boxes:</strong> <%= s.boxes %></p>
+      <p><strong>Pieces:</strong> <%= s.pieces %></p>
+      <div class="actions">
+        <a href="/suplierentry/<%= s._id %>/edit" class="edit-btn">Edit</a>
+        <form method="post" action="/suplierentry/<%= s._id %>?_method=DELETE">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    </div>
+    <% } %>
+  </body>
+</html>

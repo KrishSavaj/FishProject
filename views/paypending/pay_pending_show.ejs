@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>listing the paypending</title>
+</head>
+<body>
+    <% for(p of pay) { %>
+        Date : <%= p.date %> <br><br>
+        Customer Name : <%= p.customerId.customerName %> <br><br>
+        Amount : <%= p.amount %> <br>
+        <a href="/paypending/<%= p._id %>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a><br>
+        <form method="post" action="/paypending/<%= p._id %>?_method=DELETE">
+            <button>Delete</button>
+        </form>
+        <hr>
+    <% } %>
+</body>
+</html>
