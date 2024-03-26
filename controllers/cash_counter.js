@@ -26,6 +26,7 @@ module.exports.AddEntry = async (req, res) => {
   entry.date = new Date().toLocaleDateString("de-DE");
   entry.suplierId = sup._id;
   entry.customerId = cust._id;
+  entry.subName = cash.subname;
   entry.fishId = fish._id;
   entry.kg = cash.kg;
   entry.rate = cash.rate;
@@ -91,7 +92,7 @@ module.exports.editEntry = async (req, res) => {
     date: cc.date,
     suplierId: cc.suplierId._id,
     customerId: cc.customerId._id,
-    subName: cc.subName,
+    subName: cash.subname,
     fishId: cc.fishId._id,
     kg: cash.kg,
     rate: cash.rate,
