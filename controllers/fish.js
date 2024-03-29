@@ -21,6 +21,7 @@ module.exports.renderAddForm = (req, res) => {
 
 // code from the saad
 module.exports.addFish = async (req, res) => {
+  console.log(req.body);
   let { fishname } = req.body;
   let fish = new Fish();
   fish.fishName = fishname;
@@ -58,6 +59,7 @@ module.exports.editFish = async (req, res) => {
   let { id } = req.params;
   await Fish.findByIdAndUpdate(id, { fishName: req.body.fishname });
   const response = await Fish.findById(id);
+  console.log(response);
   res.send(response);
 };
 

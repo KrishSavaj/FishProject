@@ -9,6 +9,7 @@
     <form method="post" action="/suplier/<%= suplier._id %>?_method=PUT">
         Suplier Name:<input type="text" name="suplier[suplierName]" value="<%= suplier.suplierName %>" required><br>
         Suplier Code: <input type="text" name="suplier[suplierCode]" value="<%= suplier.suplierCode %>" required><br>
+        Suplier Code: <input type="text" name="suplier[phoneNum]" value="<%= suplier.phoneNum %>" required><br>
         <button>Edit</button>
     </form>
 </body>

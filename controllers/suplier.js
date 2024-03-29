@@ -10,13 +10,12 @@ module.exports.renderAddForm = (req, res) => {
 
 // adding the complete data of suplier to database.
 module.exports.addSuplier = async (req, res) => {
-  let { supname, supcode } = req.body;
-  let sup = new Suplier();
-  sup.suplierName = supname;
-  sup.suplierCode = supcode;
-
-  await sup.save();
-  res.redirect("/");
+  const sup = new Suplier();
+  sup.suplierName = req.body.suppName;
+  sup.phoneNum = req.body.phoneNum;
+  const savedSup = await sup.save();
+  res.json(savedSup);
+  // res.redirect("/");
 };
 //
 
@@ -42,15 +41,21 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.editSuplier = async (req, res) => {
   let { id } = req.params;
-  await Suplier.findByIdAndUpdate(id, req.body.suplier);
-  res.redirect("/");
+  const sup = {
+    suplierName: req.body.suppName,
+    phoneNum: req.body.phoneNum,
+  };
+  const updatedObject = await Suplier.findByIdAndUpdate(id, sup, { new: true });
+  res.json(updatedObject);
+  // res.redirect("/");
 };
 //
 
 // deleting particular suplier from the database.
 module.exports.deleteSuplier = async (req, res) => {
   let { id } = req.params;
-  await Suplier.findByIdAndDelete(id);
-  res.redirect("/");
+  const deletedObject = await Suplier.findByIdAndDelete(id);
+  res.json(deletedObject);
+  // res.redirect("/");
 };
 //

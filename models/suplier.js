@@ -10,10 +10,8 @@ const suplierSchema = new schema({
     unique: true,
     required: true,
   },
-  suplierCode: {
-    type: String,
-    unique: true,
-    required: true,
+  phoneNum:{
+      type:Number,
   },
   sales: {
     type: Number,

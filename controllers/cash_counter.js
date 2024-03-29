@@ -99,8 +99,16 @@ module.exports.editEntry = async (req, res) => {
     amount: cash.kg * cash.rate,
   };
 
+  const cust = await Customer.findOne({ customerName: "CASH SALES" });
+
   if (cash.supname !== cc.suplierId.suplierName) {
     const sup = await Suplier.findOne({ suplierName: cash.supname });
+    await Suplier.findByIdAndUpdate(cc.suplierId._id, {
+      $inc: { sales: -cc.amount },
+    });
+    await Suplier.findByIdAndUpdate(sup._id, {
+      $inc: { sales: cashcounter.amount },
+    });
     cashcounter.suplierId = sup._id;
   }
 
@@ -109,12 +117,13 @@ module.exports.editEntry = async (req, res) => {
     cashcounter.fishId = fish._id;
   }
 
-  if (cash.custname !== cc.customerId.customerId) {
+  if (cash.custname !== cc.customerId.customerName) {
     if (cash.custname == "CASH SALES") {
       await Customer.findByIdAndUpdate(cc.customerId._id, {
         $inc: { credit: -cc.amount },
       });
-      cashcounter.customerId = "65d6c52be679795fbe3def03";
+      
+      cashcounter.customerId = cust._id;
     } else if (cc.customerId.customerName == "CASH SALES") {
       const cust = await Customer.findOneAndUpdate(
         { customerName: cash.custname },
@@ -134,7 +143,7 @@ module.exports.editEntry = async (req, res) => {
       cashcounter.customerId = cust._id;
     }
   } else if (cc.amount != cashcounter.amount) {
-    if (cc.customerId._id != "65d6c52be679795fbe3def03") {
+    if (cc.customerId._id != cust._id) {
       await Customer.findByIdAndUpdate(cc.customerId._id, {
         $inc: { credit: cashcounter.amount - cc.amount },
       });
