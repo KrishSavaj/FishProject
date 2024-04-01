@@ -12,11 +12,21 @@ module.exports.renderAddForm = (req, res) => {
 module.exports.addCustomer = async (req, res) => {
   let cust = new Customer();
 
-  cust.customerName = req.body.custname;
-  cust.mobileNumber = req.body.custnumber;
+  cust.customerName = req.body.custName;
+  cust.mobileNumber = req.body.phoneNum;
 
-  await cust.save();
-  res.redirect("/");
+  const newcust = await cust.save();
+
+  const newcs = {
+    _id: newcust._id,
+    custName: newcust.customerName,
+    phoneNum: newcust.mobileNumber,
+    credit: newcust.credit,
+  };
+
+  res.json(newcs);
+
+  // res.redirect("/");
 };
 //
 
@@ -24,7 +34,17 @@ module.exports.addCustomer = async (req, res) => {
 module.exports.showCustomer = async (req, res) => {
   let cust = await Customer.find();
 
-  res.json(cust);
+  const myse = [];
+  for (s of cust) {
+    myse.push({
+      _id: s._id,
+      custName: s.customerName,
+      phoneNum: s.mobileNumber,
+      credit: s.credit,
+    });
+  }
+
+  res.json(myse);
 
   // res.render("../views/customer/customer_show.ejs", { cust });
 };
@@ -41,15 +61,38 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.editCustomer = async (req, res) => {
   let { id } = req.params;
-  await Customer.findByIdAndUpdate(id, req.body.customer);
-  res.redirect("/");
+
+  const newcust = {
+    customerName: req.body.custName,
+    mobileNumber: req.body.phoneNum,
+  };
+
+  const updatedObject = await Customer.findByIdAndUpdate(
+    id,
+    { ...newcust },
+    { new: true }
+  );
+
+  const updatecust = {
+    _id: updatedObject._id,
+    custName: updatedObject.customerName,
+    phoneNum: updatedObject.mobileNumber,
+    credit: updatedObject.credit,
+  };
+
+  res.json(updatecust);
+
+  // res.redirect("/");
 };
 //
 
 // deleting the particular customer.
 module.exports.deleteCustomer = async (req, res) => {
   let { id } = req.params;
-  await Customer.findByIdAndDelete(id);
-  res.redirect("/");
+  const deletedObject = await Customer.findByIdAndDelete(id);
+
+  res.json(deletedObject);
+
+  // res.redirect("/");
 };
 //
