@@ -13,20 +13,29 @@ module.exports.renderAddForm = (req, res) => {
 
 // storing data into database.
 module.exports.addEntry = async (req, res) => {
-  const se = req.body.se;
+  const se = req.body;
 
   let entry = new SuplierEntry();
 
-  const sup = await Suplier.findOne({ suplierName: se.supname });
+  const sup = await Suplier.findOne({ suplierName: se.suppName });
 
   entry.date = new Date().toLocaleDateString("de-DE");
   entry.suplierId = sup._id;
   entry.boxes = se.boxes;
   entry.pieces = se.pieces;
 
-  await entry.save();
+  const addedEntry = await entry.save();
 
-  res.redirect("/");
+  const newse = {
+    _id: addedEntry._id,
+    suppName: se.suppName,
+    boxes: addedEntry.boxes,
+    pieces: addedEntry.pieces,
+  };
+
+  res.json(newse);
+
+  // res.redirect("/");
 };
 //
 //
@@ -35,7 +44,17 @@ module.exports.addEntry = async (req, res) => {
 module.exports.showEntry = async (req, res) => {
   const se = await SuplierEntry.find().populate("suplierId");
 
-  res.json(se);
+  const myse = [];
+  for (s of se) {
+    myse.push({
+      _id: s._id,
+      suppName: s.suplierId.suplierName,
+      boxes: s.boxes,
+      pieces: s.pieces,
+    });
+  }
+
+  res.json(myse);
 
   // res.render("../views/suplier_entry/suplier_entry_show.ejs", { se });
 };
@@ -58,7 +77,7 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.editSuplierEntry = async (req, res) => {
   let { id } = req.params;
 
-  const se = req.body.se;
+  const se = req.body;
 
   const sup = await SuplierEntry.findById(id).populate("suplierId");
 
@@ -69,14 +88,27 @@ module.exports.editSuplierEntry = async (req, res) => {
     pieces: se.pieces,
   };
 
-  if (sup.suplierId.suplierName !== se.supname) {
-    const supid = await Suplier.findOne({ suplierName: se.supname });
+  if (sup.suplierId.suplierName !== se.suppName) {
+    const supid = await Suplier.findOne({ suplierName: se.suppName });
     new_sup.suplierId = supid._id;
   }
 
-  await SuplierEntry.findByIdAndUpdate(id, { ...new_sup });
+  const newsup = await SuplierEntry.findByIdAndUpdate(
+    id,
+    { ...new_sup },
+    { new: true }
+  );
 
-  res.redirect("/suplierentry/show");
+  const newse = {
+    _id: newsup._id,
+    suppName: se.suppName,
+    boxes: newsup.boxes,
+    pieces: newsup.pieces,
+  };
+
+  res.json(newse);
+
+  // res.redirect("/suplierentry/show");
 };
 //
 //
@@ -85,8 +117,10 @@ module.exports.editSuplierEntry = async (req, res) => {
 module.exports.deleteEntry = async (req, res) => {
   let { id } = req.params;
 
-  await SuplierEntry.findByIdAndDelete(id);
+  const deletedObject = await SuplierEntry.findByIdAndDelete(id);
 
-  res.redirect("/suplierentry/show");
+  res.json(deletedObject);
+
+  // res.redirect("/suplierentry/show");
 };
 //

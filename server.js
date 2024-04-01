@@ -28,6 +28,8 @@ const mongoose = require("mongoose");
 
 // creating connection to database.
 const mongo = "mongodb://127.0.0.1:27017/FishShop";
+// const mongo =
+//   "mongodb+srv://savajkrish23:Krish23@cluster1.xlsmdks.mongodb.net/FishShop";
 
 main()
   .then((res) => {
