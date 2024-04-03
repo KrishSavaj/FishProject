@@ -12,7 +12,7 @@ module.exports.renderAddForm = (req, res) => {
 
 // adding the complete data of paypending to database.
 module.exports.updateEntry = async (req, res) => {
-  let customer = req.body.custname;
+  let customer = req.body.custName;
   let amt = req.body.amount;
 
   await Customer.updateOne(
@@ -27,7 +27,16 @@ module.exports.updateEntry = async (req, res) => {
   pay_pending.amount = amt;
 
   await pay_pending.save();
-  res.redirect("/");
+
+  const pay = {
+    _id: pay_pending._id,
+    custName: customer,
+    amount: amt,
+  };
+
+  res.json(pay);
+
+  // res.redirect("/");
 };
 //
 
@@ -35,7 +44,17 @@ module.exports.updateEntry = async (req, res) => {
 module.exports.showPayPending = async (req, res) => {
   const pay = await PayPending.find().populate("customerId");
 
-  res.json(pay);
+  const newpay = [];
+
+  for (p of pay) {
+    newpay.push({
+      _id: p._id,
+      custName: p.customerId.customerName,
+      amount: p.amount,
+    });
+  }
+
+  res.json(newpay);
 
   // res.render("../views/paypending/pay_pending_show.ejs", { pay });
 };
@@ -53,7 +72,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.editPayPending = async (req, res) => {
   let { id } = req.params;
-  const pay = req.body.pay;
+  const pay = req.body;
 
   const data = await PayPending.findById(id).populate("customerId");
 
@@ -70,7 +89,7 @@ module.exports.editPayPending = async (req, res) => {
     });
 
     const updatedCustomer = await Customer.findOneAndUpdate(
-      { customerName: pay.customerName },
+      { customerName: pay.custName },
       { $inc: { credit: -pay.amount } },
       { new: true }
     );
@@ -89,7 +108,15 @@ module.exports.editPayPending = async (req, res) => {
     },
   });
 
-  res.redirect("/");
+  const send = {
+    _id: pay._id,
+    custName: pay.custName,
+    amount: pay.amount,
+  };
+
+  res.json(send);
+
+  // res.redirect("/");
 };
 //
 
@@ -100,11 +127,13 @@ module.exports.deletePayPending = async (req, res) => {
   const deleteObject = await PayPending.findByIdAndDelete(id);
 
   //we have to update croponding credit amount from the customer table.
-  await Customer.updateOne(
+  const deletedObject = await Customer.updateOne(
     { _id: deleteObject.customerId },
     { $inc: { credit: deleteObject.amount } }
   );
 
-  res.redirect("/");
+  res.json(deleteObject);
+
+  // res.redirect("/");
 };
 //
