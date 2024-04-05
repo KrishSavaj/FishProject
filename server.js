@@ -62,6 +62,8 @@ const SuplierEntryRouter = require("./routes/suplier_entry.js");
 
 const BillingRouter = require("./routes/billing.js");
 
+const LoginRouter = require("./routes/login.js");
+
 // root or home page
 app.get("/", (req, res) => {
   res.send("hi,i am root");
@@ -81,6 +83,8 @@ app.use("/paypending", PayPendingRouter);
 app.use("/suplierentry", SuplierEntryRouter);
 
 app.use("/billing", BillingRouter);
+
+app.use("/login", LoginRouter); // login/...
 
 // for page not found error.
 app.all("*", (req, res, next) => {
